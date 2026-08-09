@@ -1,28 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Prism - AI Image & Text Studio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/styles.css">
-    <link rel="manifest" href="/manifest.json">
-    <script src="/scripts/index.js" type="module"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prism - Free AI Image Generator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #0f172a; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #1e293b; padding: 24px; border-radius: 16px; width: 100%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; border: 1px solid #334155; }
+    h1 { font-size: 28px; color: #a855f7; margin-bottom: 4px; }
+    p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    textarea { width: 100%; height: 90px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: #fff; padding: 12px; font-size: 14px; resize: none; margin-bottom: 16px; outline: none; }
+    textarea:focus { border-color: #a855f7; }
+    button { width: 100%; background: linear-gradient(to right, #8b5cf6, #ec4899); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .img-box { margin-top: 20px; border: 2px dashed #334155; border-radius: 12px; min-height: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .img-box img { width: 100%; height: auto; display: none; border-radius: 10px; }
+    .error { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; }
+    .loader { display: none; border: 4px solid #334155; border-top: 4px solid #a855f7; border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="title-wrapper" dir="ltr">
-            <h1>Prism</h1>
-            <div class="font-subheading">v1.11.2</div>
-        </div>
-    </header>
 
-    <main id="app">
-        <!-- Main Application Layout -->
-    </main>
+  <div class="card">
+    <h1>Prism</h1>
+    <p>AI Image & Text Studio</p>
+    
+    <textarea id="prompt" placeholder="A photorealistic red panda sipping coffee..."></textarea>
+    <button id="btn" onclick="genImg()">Generate Image</button>
+    <p id="err" class="error">Failed to generate image. Please try again.</p>
 
-    <!-- Adsterra Social Bar Ads -->
-    <script src="https://pl30752477.effectivecpmnetwork.com/9e/d6/1a/9ed61a2051a1d0325629627b8a39d95c.js"></script>
+    <div class="img-box">
+      <div id="loader" class="loader"></div>
+      <p id="placeholder" style="color: #64748b; font-size: 13px;">Your generated image will appear here.</p>
+      <img id="result" alt="Generated AI Image">
+    </div>
+  </div>
+
+  <script>
+    function genImg() {
+      const text = document.getElementById('prompt').value.trim();
+      const btn = document.getElementById('btn');
+      const loader = document.getElementById('loader');
+      const img = document.getElementById('result');
+      const txt = document.getElementById('placeholder');
+      const err = document.getElementById('err');
+
+      if (!text) {
+        alert('Please enter a description!');
+        return;
+      }
+
+      err.style.display = 'none';
+      img.style.display = 'none';
+      txt.style.display = 'none';
+      loader.style.display = 'block';
+      btn.disabled = true;
+      btn.innerText = 'Generating...';
+
+      const url = "https://image.pollinations.ai/prompt/" + encodeURIComponent(text) + "?width=512&height=512&nologo=true&seed=" + Math.floor(Math.random() * 10000);
+
+      const tempImg = new Image();
+      tempImg.src = url;
+      tempImg.onload = function() {
+        loader.style.display = 'none';
+        img.src = url;
+        img.style.display = 'block';
+        btn.disabled = false;
+        btn.innerText = 'Generate Image';
+      };
+      tempImg.onerror = function() {
+        loader.style.display = 'none';
+        txt.style.display = 'block';
+        err.style.display = 'block';
+        btn.disabled = false;
+        btn.innerText = 'Generate Image';
+      };
+    }
+  </script>
+
+  <!-- Adsterra Social Bar -->
+  <script src="https://pl30752477.effectivecpmnetwork.com/9e/d6/1a/9ed61a2051a1d0325629627b8a39d95c.js"></script>
+
 </body>
 </html>
+
 
 
