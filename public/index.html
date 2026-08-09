@@ -1,3 +1,67 @@
+https://pollinations.ai/<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prism - Free AI Image Studio</title>
+  <style>
+    body { background-color: #111827; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    .container { background: #1f2937; padding: 20px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; }
+    textarea { width: 100%; height: 80px; background: #374151; color: white; border: 1px solid #4b5563; border-radius: 8px; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+    button { background: #8b5cf6; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    button:disabled { opacity: 0.5; }
+    .result { margin-top: 15px; min-height: 200px; display: flex; align-items: center; justify-content: center; border: 1px dashed #4b5563; border-radius: 8px; }
+    img { width: 100%; border-radius: 8px; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Prism AI Studio</h2>
+    <textarea id="prompt" placeholder="Enter text to generate image..."></textarea>
+    <button id="btn" onclick="generate()">Generate</button>
+    <div class="result">
+      <span id="status">Your image will appear here</span>
+      <img id="outImg" alt="Result">
+    </div>
+  </div>
+
+  <script>
+    function generate() {
+      const text = document.getElementById('prompt').value.trim();
+      if(!text) return alert("Enter prompt!");
+      
+      const btn = document.getElementById('btn');
+      const status = document.getElementById('status');
+      const img = document.getElementById('outImg');
+
+      btn.disabled = true;
+      btn.innerText = "Loading...";
+      status.style.display = "inline";
+      status.innerText = "Generating image, please wait...";
+      img.style.display = "none";
+
+      const imageUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(text) + "?nologo=true&seed=" + Math.floor(Math.random() * 9999);
+
+      img.src = imageUrl;
+      img.onload = function() {
+        status.style.display = "none";
+        img.style.display = "block";
+        btn.disabled = false;
+        btn.innerText = "Generate";
+      };
+      img.onerror = function() {
+        status.innerText = "Failed to load image. Try again!";
+        btn.disabled = false;
+        btn.innerText = "Generate";
+      };
+    }
+  </script>
+
+  <!-- Social Bar Ads -->
+  <script src="https://pl30752477.effectivecpmnetwork.com/9e/d6/1a/9ed61a2051a1d0325629627b8a39d95c.js"></script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
